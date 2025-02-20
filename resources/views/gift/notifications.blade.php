@@ -1,7 +1,6 @@
 @extends('admin.body.adminmaster')
 
 @section('admin')
-
 <!-- Ensure jQuery and Bootstrap JS are loaded -->
 @push('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -50,7 +49,6 @@
     </div>
   </div>
 </div> 
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
