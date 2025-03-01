@@ -19,7 +19,12 @@
                    <tr>
                       <th>Id</th>
                       <th>name</th>
+<<<<<<< HEAD
 					  <th>Social Media</th>
+=======
+					   <th>Social Media</th>
+                  
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                       <th>Action</th>
                    </tr>
                 </thead>

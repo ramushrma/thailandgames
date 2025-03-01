@@ -11,8 +11,14 @@ class UsdtController extends Controller
 {
     public function usdt_view()
     {
+<<<<<<< HEAD
         $data = DB::select("SELECT * FROM `manual_usdt`");
         return view('usdt.usdt_qr', compact('data'));
+=======
+        $usdt = DB::select("SELECT * FROM `usdt_qr`");
+
+        return view('usdt.usdt_qr', compact('usdt'));
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     }
 
 

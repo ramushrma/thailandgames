@@ -33,9 +33,13 @@ use App\Http\Controllers\UsdtController;
 use App\Http\Controllers\UsdtDepositController;
 use App\Http\Controllers\UsdtWidthdrawController;
 use App\Http\Controllers\SalaryController;
+<<<<<<< HEAD
 use App\Http\Controllers\RolePermissionController;
 
 use App\Http\Middleware\CheckUserSession;
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 
 //Aviator
 use App\Http\Controllers\AviatorAdminController;
@@ -60,22 +64,45 @@ Route::get('/error', function () {
 
 //Aviator
 //Route::get('/bet-history',[AviatorAdminController::class, 'bet_history'])->name('bet_history');
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 // Route::get('/result',[AviatorAdminController::class, 'result_index'])->name('result');
 // Route::post('/result-update', [AviatorAdminController::class, 'result_update'])->name('result.update');
 // Route::post('/number-update', [AviatorAdminController::class, 'result_number_update'])->name('number.update');
 
+<<<<<<< HEAD
 
 //End Aviator
 Route::get('/clear', function() {
+=======
+ Route::get('/aviator/{game_id}',[AviatorAdminController::class, 'aviator_prediction_create'])->name('result');
+	 Route::get('/aviator_fetchs/{game_id}', [AviatorAdminController::class, 'aviator_fetchDatacolor'])->name('aviator_fetch_data');
+
+     Route::post('/aviator_store',[AviatorAdminController::class, 'aviator_store'])->name('aviator.store');
+     Route::post('/aviator_percentage_update', [AviatorAdminController::class, 'aviator_update'])->name('aviator_percentage.update');
+ Route::get('/bet-history/{game_id}', [AviatorAdminController::class, 'aviator_bet_history'])->name('bet_history');
+
+
+//End Aviator
+Route::get('/clear', function() {
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
    Artisan::call('cache:clear');
    Artisan::call('config:clear');
    Artisan::call('config:cache');
    Artisan::call('view:clear');
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
    return "Cleared!";
 
 });
 
 
+<<<<<<< HEAD
 Route::get('/',[LoginController::class,'login'])->name('login');
 Route::post('/login',[LoginController::class,'auth_login'])->name('auth.login');
 
@@ -93,6 +120,15 @@ Route::post('/login',[LoginController::class,'auth_login'])->name('auth.login');
      Route::get('/bet-history/{game_id}', [AviatorAdminController::class, 'aviator_bet_history'])->name('bet_history');
 
  
+=======
+
+Route::get('/',[LoginController::class,'login'])->name('login');
+Route::post('/login',[LoginController::class,'auth_login'])->name('auth.login');
+
+Route::get('/dashboard',[LoginController::class,'dashboard'])->name('dashboard');
+ 
+        
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
  //// Trx Game Routes ////
      Route::get('/trx/{gameid}',[TrxAdminController::class, 'trx_create'])->name('trx');
 	 Route::get('/fetch/{gameid}', [TrxAdminController::class, 'fetchData'])->name('fetch_data');
@@ -109,6 +145,7 @@ Route::post('/login',[LoginController::class,'auth_login'])->name('auth.login');
 // Route::middleware(['auth'])->group(function () {
 
 
+<<<<<<< HEAD
      Route::get('/auth-logout',[LoginController::class,'logout'])->name('auth.logout');
      Route::get('/change_password',[LoginController::class,'password_index'])->name('change_password');
      Route::post('/change_password',[LoginController::class,'password_change'])->name('change_pass.update');
@@ -116,6 +153,21 @@ Route::post('/login',[LoginController::class,'auth_login'])->name('auth.login');
      ///Admin Payin Route ///
      Route::any('/admin_payin-{id}',[AdminPayinController::class,'admin_payin'])->name('admin_payin.store');
   
+=======
+    Route::get('/auth-logout',[LoginController::class,'logout'])->name('auth.logout');
+     Route::get('/change_password',[LoginController::class,'password_index'])->name('change_password');
+     Route::post('/change_password',[LoginController::class,'password_change'])->name('change_pass.update');
+     
+     
+     
+     ///Admin Payin Route ///
+     Route::any('/admin_payin-{id}',[AdminPayinController::class,'admin_payin'])->name('admin_payin.store');
+  
+
+
+
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // Route::post('/city-data', function () {
     //     return view('city');
     // })->name('city-data');
@@ -127,9 +179,15 @@ Route::post('/login',[LoginController::class,'auth_login'])->name('auth.login');
 
    //Banner
     Route::get('/banner-index',[BannerController::class, 'index'])->name('banner');
+<<<<<<< HEAD
     Route::post('/banner-store',[BannerController::class, 'banner_store'])->name('banner.store');
     Route::get('/banner-delete-{id}',[BannerController::class, 'banner_delete'])->name('banner.delete');
     Route::post('/banner-update-{id}', [BannerController::class, 'banner_update'])->name('banner.update');  
+=======
+ Route::post('/banner-store',[BannerController::class, 'banner_store'])->name('banner.store');
+ Route::get('/banner-delete-{id}',[BannerController::class, 'banner_delete'])->name('banner.delete');
+  Route::post('/banner-update-{id}', [BannerController::class, 'banner_update'])->name('banner.update');  
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     
     Route::get('/attendance',[AttendanceController::class, 'attendance'])->name('attendance.index');
     Route::post('/attendance',[AttendanceController::class, 'attendance_store'])->name('attendance.store');
@@ -151,8 +209,16 @@ Route::post('/login',[LoginController::class,'auth_login'])->name('auth.login');
     Route::post('/password-store-{id}',[UserController::class, 'password_store'])->name('password.store');
 	Route::get('/users-mlm-{id}',[UserController::class, 'user_mlm'])->name('user.mlm');
 	
+<<<<<<< HEAD
 
     
+=======
+	Route::get('/registerwithref/{id}',[UserController::class,'registerwithref'])->name('registerwithref');
+	Route::post('/register_store-{referral_code}',[UserController::class,'register_store'])->name('user_register');
+
+    
+    
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
      Route::get('/colour_prediction/{gameid}',[ColourPredictionController::class, 'colour_prediction_create'])->name('colour_prediction');
 	 Route::get('/fetch/{gameid}', [ColourPredictionController::class, 'fetchData'])->name('fetch_data');
 
@@ -262,7 +328,12 @@ Route::post('/login',[LoginController::class,'auth_login'])->name('auth.login');
     Route::get('/usdt_deposit/{id}',[UsdtDepositController::class,'usdt_deposit_index'])->name('usdt_deposit');
     Route::post('/usdt_deposit',[UsdtDepositController::class,'usdt_deposit_store'])->name('usdt_deposit.store');
     Route::get('/usdt_success/{id}',[UsdtDepositController::class,'usdt_success'])->name('usdt_success');
+<<<<<<< HEAD
    
+=======
+    Route::get('/usdt_reject/{id}',[UsdtDepositController::class,'usdt_reject'])->name('usdt_reject');
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     Route::get('/usdt_deposit-active-{id}', [UsdtDepositController::class,'usdt_deposit_active'])->name('usdt_deposit.active');
     Route::get('/usdt_deposit-inactive-{id}',[UsdtDepositController::class, 'usdt_deposit_inactive'])->name('usdt_deposit.inactive');
     Route::get('/usdt_deposit-delete-{id}',[UsdtDepositController::class, 'usdt_deposit_delete'])->name('usdt_deposit.delete');
@@ -275,20 +346,37 @@ Route::post('/login',[LoginController::class,'auth_login'])->name('auth.login');
     Route::get('/usdt_widthdrawl-delete-{id}',[UsdtWidthdrawController::class, 'usdt_widthdrawl_delete'])->name('usdt_widthdrawl.delete');
     Route::post('/usdt_widthdrawl-update-{id}', [UsdtWidthdrawController::class, 'usdt_widthdrawl_update'])->name('usdt_widthdrawl.update');
     Route::get('/usdt_withdraw/{id}', [UsdtWidthdrawController::class,'usdt_success'])->name('usdt_widthdrawl.success');
+<<<<<<< HEAD
     
     Route::post('/usdt_widthdrawl-inactive',[UsdtWidthdrawController::class, 'usdt_reject'])->name('usdt_widthdrawl.reject');
     
     Route::post('/usdt_widthdrawl-all-success',[UsdtWidthdrawController::class, 'usdt_all_success'])->name('usdt_widthdrawl.all_success');
     
 	Route::get('/usdt_qr',[UsdtController::class, 'usdt_view'])->name('admin.usdtqr');
+=======
+    Route::get('/usdt_widthdrawl-inactive-{id}',[UsdtWidthdrawController::class, 'usdt_reject'])->name('usdt_widthdrawl.reject');
+    Route::post('/usdt_widthdrawl-all-success',[UsdtWidthdrawController::class, 'usdt_all_success'])->name('usdt_widthdrawl.all_success');
+
+
+	Route::get('/usdt_qr',[UsdtController::class, 'usdt_view'])->name('usdtqr');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     Route::post('/update_usdtqr/{id}', [UsdtController::class, 'update_usdtqr'])->name('usdtqr.update');
     
     
     // Offline Payment
     
+<<<<<<< HEAD
 Route::get('/offline_deposit/{id}',[UsdtDepositController::class,'offline_deposit_index'])->name('offline_deposit');
 
 // });      avitor game view
+=======
+    Route::get('/offline_deposit/{id}',[UsdtDepositController::class,'offline_deposit_index'])->name('offline_deposit');
+
+
+// });      avitor game view
+
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 		
     Route::controller(FirstDepositBonusController::class)->group(function () {
     Route::get('/first-deposit-bonus', 'index')->name('first.deposit.bonus');
@@ -298,12 +386,22 @@ Route::get('/offline_deposit/{id}',[UsdtDepositController::class,'offline_deposi
      });
 
 
+<<<<<<< HEAD
     Route:: controller(SalaryController::class)->group(function () {
+=======
+   Route:: controller(SalaryController::class)->group(function () {
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     Route::get('/salary-index', 'salary_index')->name('salary.index');
 	Route::post('/salary-store', 'salary_store')->name('salary.store');
 	Route::get('/salary-list', 'salary_list')->name('salary.list');
      });
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // Business setting controller
 Route::controller(BusinessSettingController::class)->group(function(){
     Route::get('/businessSetting-index','businessSetting_index')->name('businessSetting.index');
@@ -312,6 +410,7 @@ Route::controller(BusinessSettingController::class)->group(function(){
 });
 
 
+<<<<<<< HEAD
 
   //Route::get('/manual_usdt/',[WidthdrawlController::class,'manual_usdt'])->name('manual_usdt');
  
@@ -370,3 +469,5 @@ Route::controller(BusinessSettingController::class)->group(function(){
    
    
    
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263

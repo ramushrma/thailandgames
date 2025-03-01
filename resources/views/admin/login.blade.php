@@ -9,7 +9,11 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
+<<<<<<< HEAD
       <title>Xgamblur - Login</title>
+=======
+      <title>FOMOPLAY - Login</title>
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -40,6 +44,7 @@
                <div class="login_section">
                   <div class="logo_login">
                      <div class="center">
+<<<<<<< HEAD
                         <h3 class="text-white">Xgamblur-Login</h3>
                         {{-- <img width="210" src="images/layout_img/bg1.png" alt="#" /> --}}
                         
@@ -54,6 +59,18 @@
 
                   <div class="login_form">
                       
+=======
+                        <h3 class="text-white">FOMOPLAY-Login</h3>
+                        {{-- <img width="210" src="images/layout_img/bg1.png" alt="#" /> --}}
+                     </div>
+                  </div>
+                  <div class="login_form">
+                       @if(session()->has('msg'))
+                     <div class="alert alert-{{session('msg_class')}}">
+                     {{session('msg')}}
+                     </div>
+                     @endif
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                      <form  action="{{route('auth.login')}}" method="POST">
                         @csrf
      

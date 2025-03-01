@@ -36,11 +36,14 @@ Route::post('/withdrawalhistory', [UserController::class, 'withdrawalhistory']);
 Route::post('/payinghistory', [UserController::class, 'payinghistory']);
 Route::get('/TransactionType', [UserController::class, 'TransactionType']);
 Route::post('/Transaction_wallet_histories', [UserController::class, 'walletHistories']);
+<<<<<<< HEAD
 Route::get('/customer_service', [UserController::class, 'customer_service']);
 Route::get('/live_notification', [UserController::class, 'notifications']);
 Route::get('/banner', [UserController::class, 'banner']);
 
 
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 
 
 
@@ -55,6 +58,7 @@ Route::controller(GameApiController::class)->group(function () {
      Route::post('/bet_history','bet_history');
      Route::get('/cron/{game_id}/','cron');
      /// mine game route //
+<<<<<<< HEAD
     //  Route::post('/mine_bet','mine_bet');
     //  Route::post('/mine_cashout','mine_cashout');
     //  Route::get('/mine_result','mine_result');
@@ -71,12 +75,36 @@ Route::controller(GameApiController::class)->group(function () {
 
      Route::controller(AviatorApiController::class)->group(function () {
      Route::post('/aviator_bet','aviatorBet');
+=======
+     Route::post('/mine_bet','mine_bet');
+     Route::post('/mine_cashout','mine_cashout');
+     Route::get('/mine_result','mine_result');
+     Route::get('/mine_multiplier','mine_multiplier');
+    
+    //// Plinko Game Route /////
+    
+     Route::post('/plinko_bet','plinkoBet');
+     Route::get('/plinko_index_list','plinko_index_list');
+     Route::get('/plinko_result','plinko_result');
+     Route::get('/plinko_cron','plinko_cron');
+     Route::post('/plinko_multiplier','plinko_multiplier'); 
+});
+
+
+     Route::controller(AviatorApiController::class)->group(function () {
+     Route::get('/aviator_bet','aviatorBet');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
      Route::post('/aviator_cashout','aviator_cashout');
      Route::post('/aviator_history','aviator_history');
      Route::get('/aviator_last_five_result','last_five_result');
      Route::get('/aviator_bet_cancel','bet_cancel');
+<<<<<<< HEAD
      Route::post('/result_insert_new','result_insert_new');
      Route::get('/result_half_new','result_half_new');
+=======
+     Route::get('/result_half_new','result_half_new');
+     Route::post('/result_insert_new','result_insert_new');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 });
 
 
@@ -91,6 +119,7 @@ Route::controller(GameApiController::class)->group(function () {
     Route::post('/add_in_jilli_wallet ',[ZiliApiController::class,'add_in_jilli_wallet']);
     Route::post('/update_main_wallet ',[ZiliApiController::class,'update_main_wallet']);
     Route::post('/get_jilli_wallet ',[ZiliApiController::class,'get_jilli_wallet']);
+<<<<<<< HEAD
     
     
     
@@ -117,6 +146,26 @@ Route::controller(GameApiController::class)->group(function () {
 
 
  
+=======
+    Route::post('/update_jilli_wallet ',[ZiliApiController::class,'update_jilli_wallet']);
+    Route::post('/update_jilli_to_user_wallet ',[ZiliApiController::class,'update_jilli_to_user_wallet']);
+    
+    Route::get('/test_get_user_info ',[ZiliApiController::class,'test_get_user_info']);
+    Route::get('/get-reseller-info/{manager_key?}',[ZiliApiController::class,'get_reseller_info']);
+    
+    
+    //// Zili Api end///
+
+
+
+
+Route::post('/paywalex', [PayingController::class, 'paywalex']); 
+// Route::post('/registers', [UserController::class, 'registers']); 
+
+
+
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 
 
 

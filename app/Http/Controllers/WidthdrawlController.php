@@ -272,9 +272,13 @@ $invoiceNumber = $date . $rand;
 			
     }
 	
+<<<<<<< HEAD
     	public function withdrawalcharges(){
     	    $data = DB::table('withdrawal_charges')->get();
     	}
+=======
+	
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 	
 	
 

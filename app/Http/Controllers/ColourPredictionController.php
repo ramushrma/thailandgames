@@ -21,19 +21,33 @@ class ColourPredictionController extends Controller
 //     }
 
 
+<<<<<<< HEAD
 public function colour_prediction_create($gameid)
 {
     
+=======
+
+public function colour_prediction_create($gameid)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // Fetch bets with game settings' winning percentage using models
     $bets = Betlog::where('game_id', $gameid)
                 ->leftJoin('game_settings', 'betlogs.game_id', '=', 'game_settings.id')
                 ->select('betlogs.*', 'game_settings.winning_percentage as parsantage', 'game_settings.id as game_setting_id')
+<<<<<<< HEAD
                 ->limit(13)
+=======
+                ->limit(10)
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                 ->get();
 
     return view('colour_prediction.index')->with('bets', $bets)->with('gameid', $gameid);
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // public function fetchData($gameid)
     // {
     //     $bets = DB::select("SELECT betlogs.*,game_settings.winning_percentage AS parsantage ,game_settings.id AS id FROM `betlogs` LEFT JOIN game_settings ON betlogs.game_id=game_settings.id where betlogs.game_id=$gameid Limit 10;");
@@ -41,6 +55,7 @@ public function colour_prediction_create($gameid)
     //     return response()->json(['bets' => $bets, 'gameid' => $gameid]);
     // }
     
+<<<<<<< HEAD
 	
     	public function fetchData($gameid){
         $bets = BetLog::with('gameSetting:id,winning_percentage')
@@ -50,6 +65,19 @@ public function colour_prediction_create($gameid)
     
         return response()->json(['bets' => $bets, 'gameid' => $gameid]);
       }
+=======
+    
+	
+	public function fetchData($gameid)
+{
+    $bets = BetLog::with('gameSetting:id,winning_percentage')
+        ->where('game_id', $gameid)
+        ->limit(10)
+        ->get(['*']); // Adjust columns as necessary
+
+    return response()->json(['bets' => $bets, 'gameid' => $gameid]);
+}
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 
 	
 // 	public function store(Request $request)

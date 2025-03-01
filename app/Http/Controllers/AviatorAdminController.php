@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 use Illuminate\Http\Request;
 use DB;
 use App\Models\{AviatorResult,AviatorBet,AviatorAdminResult,AviatorSalary,AviatorSetting,Betlog,GameSetting};
@@ -8,15 +12,31 @@ use Illuminate\Support\Facades\Storage;
 class AviatorAdminController extends Controller
 {
   
+<<<<<<< HEAD
   public function aviator_prediction_create(string $game_id)
     {
 	    $perPage = 10;
+=======
+      
+  public function aviator_prediction_create(string $game_id)
+    {
+	    
+	    $perPage = 10;
+	   
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 		$results = DB::table('aviator_results')
 			->join('game_settings', 'aviator_results.game_id', '=', 'game_settings.id')
 			->where('aviator_results.game_id', $game_id)
 			->orderByDesc('aviator_results.id')
 			->first();
+<<<<<<< HEAD
         $aviator_res = DB::table('aviator_results')->where('game_id',5)->orderByDesc('id')->paginate($perPage);
+=======
+
+        $aviator_res = DB::table('aviator_results')->where('game_id',5)->orderByDesc('id')->paginate($perPage);
+
+	   
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         return view('aviator.result')->with('results', $results)->with('game_id', $game_id)->with('aviator_res',$aviator_res);
     }
 
@@ -108,6 +128,7 @@ class AviatorAdminController extends Controller
       {
 	   
 	     	date_default_timezone_set('Asia/Kolkata');
+<<<<<<< HEAD
             $datetime = date('Y-m-d H:i:s');
 	   
 	    $game_id=$request->game_id;
@@ -118,6 +139,15 @@ class AviatorAdminController extends Controller
 	      'winning_percentage'=>$percentage,
 	      'updated_at' => $datetime
 	      ]);
+=======
+          $datetime = date('Y-m-d H:i:s');
+	   
+	   $game_id=$request->game_id;
+        $percentage = $request->percentage;
+	   
+         //$data= DB::select("UPDATE `game_setting` SET `percentage` = '$percentage','datetime'='$datetime' WHERE `id` ='$gamid'");
+	  $data =  DB::table('game_settings')->where('id',$game_id)->update(['winning_percentage'=>$percentage]);
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
          if($data){
         return redirect()->back();
 		 }else{

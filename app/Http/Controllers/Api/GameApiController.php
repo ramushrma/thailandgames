@@ -1,12 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 use App\Http\Controllers\Controller;
 use App\Models\{Bet,Card,AdminWinnerResult,User,Betlog,GameSetting,VirtualGame,BetResult,MineGameBet,PlinkoBet,PlinkoIndexList};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Helper\jilli;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 use Illuminate\Support\Facades\DB;
 
 class GameApiController extends Controller
@@ -65,6 +73,7 @@ class GameApiController extends Controller
 //     return response()->json(['msg' => 'Bet Successfully..!', 'status' => '200']);
 // }
 	
+<<<<<<< HEAD
 // public function dragon_bet(Request $request){
 //     // Validate request input
 //     $validator = Validator::make($request->all(), [
@@ -165,6 +174,10 @@ class GameApiController extends Controller
 // }
 
 public function dragon_bet(Request $request){
+=======
+public function dragon_bet(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // Validate request input
     $validator = Validator::make($request->all(), [
         'userid' => 'required|exists:users,id',
@@ -179,12 +192,23 @@ public function dragon_bet(Request $request){
     }
 
     // Get the current timestamp
+<<<<<<< HEAD
     $datetime = Carbon::now('Asia/Kolkata')->format('Y-m-d h:i:s');
     $testData = $request->json;
     $uid = $request->userid;
 
     // Find the user and game
     $user = User::find($uid);
+=======
+    $datetime = now();
+
+    // Use the JSON data directly as an array (no need to decode)
+    $testData = $request->json;
+     $uid=$request->userid;
+	//$update_wallet = jilli::update_user_wallet($uid);
+    // Find the user and game
+    $user = User::find($request->userid);
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $gameId = $request->game_id;
 
     // Generate a unique order ID
@@ -193,6 +217,7 @@ public function dragon_bet(Request $request){
     // Get the games number for the game_id
     $gamesno = Betlog::where('game_id', $gameId)->value('games_no');
 
+<<<<<<< HEAD
     // Calculate total bet amount
     $totalAmount = array_sum(array_column($testData, 'amount'));
 
@@ -219,17 +244,36 @@ public function dragon_bet(Request $request){
     $user->save();
 
     // Place bets
+=======
+    // Track if the user has sufficient balance
+    $insufficientBalance = false;
+
+    // Loop through the bets in the decoded JSON array
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     foreach ($testData as $item) {
         $number = $item['number'];
         $amount = $item['amount'];
 
+<<<<<<< HEAD
+=======
+        // Check for valid amount and user balance
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         if ($amount <= 0 || !is_numeric($amount)) {
             return response()->json([
                 'msg' => "Invalid bet amount for number $number",
                 'status' => 400,
             ]);
         }
+<<<<<<< HEAD
    // dd($amount,$amount,$number,$gameId,$orderId,$orderId,$datetime,$datetime);
+=======
+
+        if ($user->wallet < $amount) {
+            $insufficientBalance = true;
+            break; // No need to continue, break on first insufficient balance
+        }
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         // Create a new Bet record
         Bet::create([
             'amount' => $amount,
@@ -243,6 +287,7 @@ public function dragon_bet(Request $request){
             'created_at' => $datetime,
             'updated_at' => $datetime,
         ]);
+<<<<<<< HEAD
         // Handle virtual game multiplier, if applicable
         $virtualGame = DB::table('virtual_games')
     ->where('game_id', $gameId)
@@ -254,12 +299,39 @@ public function dragon_bet(Request $request){
            // dd("hii");
             $multiplyAmt = $amount * $virtualGame->multiplier;
             //dd($multiplyAmt);
+=======
+
+        // Handle the virtual game multiplier, if applicable
+       // $virtualGame = VirtualGame::where('number', $number)->first();
+       $virtualGame = DB::table('virtual_games')->where('game_id',$gameId)->where('number',$number)->first();
+       //dd($virtualGame);
+       
+        if ($virtualGame) {
+            $multiplyAmt = $amount * $virtualGame->multiplier;
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
             Betlog::where('game_id', $gameId)
                 ->where('number', $virtualGame->actual_number)
                 ->increment('amount', $multiplyAmt);
         }
     }
 
+<<<<<<< HEAD
+=======
+    // If insufficient balance, return an error response
+    if ($insufficientBalance) {
+        return response()->json([
+            'msg' => "Insufficient balance for one or more bets",
+            'status' => 400,
+        ]);
+    }
+
+    // Deduct the total amount from the user's wallet
+    $totalAmount = array_sum(array_column($testData, 'amount'));
+    $user->decrement('wallet', $totalAmount);
+
+	//$deduct_jili = jilli::deduct_from_wallet($uid,$amount);
+	
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     return response()->json([
         'status' => 200,
         'message' => 'Bet placed successfully'
@@ -267,8 +339,13 @@ public function dragon_bet(Request $request){
 }
 
 
+<<<<<<< HEAD
 
 public function dragon_bet_old(Request $request){
+=======
+public function dragon_bet_old(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $validator = Validator::make($request->all(), [
         'userid' => 'required|exists:users,id',
         'game_id' => 'required|exists:betlogs,game_id',
@@ -281,7 +358,11 @@ public function dragon_bet_old(Request $request){
         return response()->json(['status' => 400, 'message' => $validator->errors()->first()], 400);
     }
 
+<<<<<<< HEAD
     $datetime = Carbon::now('Asia/Kolkata')->format('Y-m-d h:i:s');
+=======
+    $datetime = now();
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $testData = json_decode($request->json, true); // Decode JSON string to array
     $user = User::find($request->userid);
     $gameId = $request->game_id;
@@ -334,6 +415,7 @@ public function dragon_bet_old(Request $request){
     ]);
 }
 
+<<<<<<< HEAD
 //   public function bet(Request $request){
 //     // Validate the request
 //     $validator = Validator::make($request->all(), [
@@ -400,6 +482,10 @@ public function dragon_bet_old(Request $request){
 //     return response()->json(['status' => 200, 'message' => 'Bet Successfully']);
 // }
 public function bet(Request $request) {
+=======
+public function bet(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // Validate the request
     $validator = Validator::make($request->all(), [
         'userid' => 'required|exists:users,id',
@@ -411,6 +497,7 @@ public function bet(Request $request) {
     if ($validator->fails()) {
         return response()->json(['status' => 400, 'message' => $validator->errors()->first()]);
     }
+<<<<<<< HEAD
 
     $user = User::findOrFail($request->userid);
     $amount = $request->amount;
@@ -442,6 +529,24 @@ public function bet(Request $request) {
     $commission = $amount * 0.05;
     $betAmount = $amount - $commission;
 
+=======
+    // $amt=$request->amount;
+    // dd($amt);
+	$uid=$request->userid;
+	//$update_wallet = jilli::update_user_wallet($uid);
+    $user = User::findOrFail($request->userid);
+    
+	$amount=$request->amount;
+    // Check user wallet balance
+    if ($user->wallet < $request->amount) {
+        return response()->json(['status' => 400, 'message' => 'Insufficient balance']);
+    }
+
+    $commission = $request->amount * 0.05; // Calculate commission
+    //dd($commission); 
+    $betAmount = $request->amount - $commission; // Net bet amount
+    //dd($betAmount);
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // Get virtual games data
     $virtualGames = VirtualGame::where('number', $request->number)
         ->where('game_id', $request->game_id)
@@ -449,7 +554,11 @@ public function bet(Request $request) {
 
     // Create a new bet
     $bet = Bet::create([
+<<<<<<< HEAD
         'amount' => $amount,
+=======
+        'amount' => $request->amount,
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         'trade_amount' => $betAmount,
         'commission' => $commission,
         'number' => $request->number,
@@ -457,10 +566,18 @@ public function bet(Request $request) {
         'game_id' => $request->game_id,
         'userid' => $user->id,
         'order_id' => now()->format('YmdHis') . rand(11111, 99999),
+<<<<<<< HEAD
         'created_at' => $datetime,
         'updated_at' => $datetime,
         'status' => 0,
     ]);
+=======
+        'created_at' => now(),
+        'updated_at' => now(),
+        'status' => 0,
+    ]);
+    //dd($bet);
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 
     // Update bet logs
     foreach ($virtualGames as $game) {
@@ -469,14 +586,31 @@ public function bet(Request $request) {
             ->increment('amount', $betAmount * $game->multiplier);
     }
 
+<<<<<<< HEAD
     // Increment user's turnover
     $user->increment('today_turnover', $amount);
+=======
+    // Update user's wallet and recharge
+    $user->decrement('wallet', $request->amount);
+    //$user->decrement('recharge', $request->amount);
+    $user->increment('today_turnover', $request->amount);
+	
+	//$deduct_jili = jilli::deduct_from_wallet($uid,$amount);
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 
     return response()->json(['status' => 200, 'message' => 'Bet Successfully']);
 }
 
 
+<<<<<<< HEAD
     public function win_amount(Request $request){
+=======
+
+
+
+public function win_amount(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $validator = Validator::make($request->all(), [ 
         'userid' => 'required|integer',
         'game_id' => 'required|integer',
@@ -572,7 +706,12 @@ public function bet(Request $request) {
 //     ]);
 // }
 
+<<<<<<< HEAD
  public function results(Request $request){
+=======
+ public function results(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $validator = Validator::make($request->all(), [
         'game_id' => 'required',
         'limit' => 'required|integer',
@@ -610,20 +749,32 @@ public function bet(Request $request) {
 
     // Get the total count of bet_results for the game_id
     $total_result = BetResult::where('game_id', $game_id)->count();
+<<<<<<< HEAD
     $last_winner=DB::select("SELECT `random_card` FROM `bet_results` WHERE `game_id`=13 ORDER BY `games_no` DESC LIMIT 1 OFFSET 1");
     $winner=$last_winner[0]->random_card;
    // dd($winner);
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     return response()->json([
         'status' => 200,
         'message' => 'Data found',
         'total_result' => $total_result,
         'data' => $results,
+<<<<<<< HEAD
         'winner_no'=>$winner
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     ]);
 }
 
 //// last
+<<<<<<< HEAD
 public function lastFiveResults(Request $request){
+=======
+public function lastFiveResults(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $validator = Validator::make($request->all(), [
         'game_id' => 'required',
         'limit' => 'required|integer'
@@ -663,18 +814,28 @@ public function lastFiveResults(Request $request){
 }
 
 // last result ///
+<<<<<<< HEAD
     public function lastResults(Request $request){
     //dd($request);
     $validator = Validator::make($request->all(), [
         'game_id' => 'required',
     ]);
  
+=======
+public function lastResults(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'game_id' => 'required',
+    ]);
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $validator->stopOnFirstFailure();
 
     if ($validator->fails()) {
         return response()->json(['status' => 400, 'message' => $validator->errors()->first()]);
     }
     
+<<<<<<< HEAD
     $game_id = $request->game_id;
     //dd($game_id);
     // $offset = (int) ($request->offset ?? 0);
@@ -682,6 +843,17 @@ public function lastFiveResults(Request $request){
     // $to_date = $request->to_date;
     $results= BetResult::where('game_id', $game_id)->latest()->first();
    // dd($results);
+=======
+    
+    $game_id = $request->game_id;
+    // $offset = (int) ($request->offset ?? 0);
+    // $from_date = $request->from_date;
+    // $to_date = $request->to_date;
+    
+    
+    $results= BetResult::where('game_id', $game_id)->latest()->first();
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // $query = BetResult::where('game_id', $game_id);
 
     // // Apply date range filter if provided
@@ -757,7 +929,12 @@ public function lastFiveResults(Request $request){
 //     }
 // }
 
+<<<<<<< HEAD
 public function bet_history(Request $request){
+=======
+public function bet_history(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // Validate the request
     $validator = Validator::make($request->all(), [
         'userid' => 'required|integer',
@@ -829,7 +1006,12 @@ public function bet_history(Request $request){
     }
 }
 
+<<<<<<< HEAD
  public function cron($game_id){
+=======
+public function cron($game_id)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // Fetch winning percentage using Eloquent
     $winningSetting = GameSetting::find($game_id);
     //dd($winningSetting);
@@ -906,6 +1088,7 @@ public function bet_history(Request $request){
     }
 }
 	
+<<<<<<< HEAD
 	
 	
 	 private function andarbaharpatta($game_id,$period,$res){
@@ -914,6 +1097,14 @@ public function bet_history(Request $request){
       $lastimage=DB::select("SELECT cards.*, bet_results.random_card AS rand_card, bet_results.`game_id` AS gameiid,bet_results.id as rid FROM cards JOIN bet_results ON cards.card = bet_results.random_card WHERE bet_results.`game_id` = $game_id ORDER BY bet_results.id DESC LIMIT 1; 
         ");
 	//	 dd($lastimage);
+=======
+	 private function andarbaharpatta($game_id,$period,$res)
+     {
+		 //dd($game_id);
+      $lastimage=DB::select("SELECT cards.*, bet_results.random_card AS rand_card, bet_results.`game_id` AS gameiid,bet_results.id as rid FROM cards JOIN bet_results ON cards.card = bet_results.random_card WHERE bet_results.`game_id` = $game_id ORDER BY bet_results.id DESC LIMIT 1; 
+        ");
+		 //dd($lastimage);
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
  
             //card id
          $rescardid = $lastimage[0]->id;
@@ -967,6 +1158,7 @@ $dragon=$randomNumbers;
   }
 
 
+<<<<<<< HEAD
      private function colour_prediction_and_bingo($game_id, $period, $res){
             //echo"$game_id,$period,$res";
             // Fetch the colours associated with the given game_id and result
@@ -1002,6 +1194,45 @@ $dragon=$randomNumbers;
 /// trx ////
 
    private function trx($game_id,$period,$result){
+=======
+private function colour_prediction_and_bingo($game_id, $period, $res)
+{
+    //echo"$game_id,$period,$res";
+    // Fetch the colours associated with the given game_id and result
+    $colours = VirtualGame::where('actual_number', $res)
+        ->where('game_id', $game_id)
+        ->where('multiplier', '!=', '1.5')
+        ->pluck('name');
+//dd($colours);
+    // Convert the collection to JSON
+    $pdata = json_encode($colours);
+    //dd($pdata);
+    // Insert the bet result
+    BetResult::create([
+        'number' => $res,
+        'games_no' => $period,
+        'game_id' => $game_id,
+        'status' => 1,
+        'json' => $pdata,
+        'random_card' => $res
+    ]);
+
+    
+    
+    // Call the amount distribution method
+    $this->amountdistributioncolors($game_id, $period, $res);
+    // Update bet logs
+    Betlog::where('game_id', $game_id)
+        ->update(['amount' => 0, 'games_no' => \DB::raw('games_no + 1')]);
+
+    return true;
+
+}
+/// trx ////
+
+private function trx($game_id,$period,$result)
+   {
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
       
        $colour=DB::select("SELECT `name` FROM `virtual_games` WHERE actual_number=$result && game_id=$game_id && `multiplier` !='1.5'");
       
@@ -1045,7 +1276,12 @@ $dragon=$randomNumbers;
 }
 
 
+<<<<<<< HEAD
     private function dragon_tiger($game_id, $period, $res){
+=======
+private function dragon_tiger($game_id, $period, $res)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $data = [];
     
     try {
@@ -1106,7 +1342,12 @@ $dragon=$randomNumbers;
     }
 }
 
+<<<<<<< HEAD
     private function amountdistributioncolors($game_id, $period, $res){
+=======
+private function amountdistributioncolors($game_id, $period, $res)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     //echo"$game_id,$period,$res";
     // Fetch the virtual games based on criteria
     $virtualGames = VirtualGame::where('actual_number', $res)
@@ -1155,12 +1396,21 @@ $dragon=$randomNumbers;
 
       $amount = (float) $amount;
 
+<<<<<<< HEAD
     User::where('id', $userId)
         ->update([
             'wallet' => DB::raw("wallet + {$amount}"), 
             'winning_wallet' => DB::raw("winning_wallet + {$amount}"),
             'updated_at' => now()
         ]); 
+=======
+User::where('id', $userId)
+    ->update([
+        'wallet' => DB::raw("wallet + {$amount}"), 
+        'winning_wallet' => DB::raw("winning_wallet + {$amount}"),
+        'updated_at' => now()
+    ]); 
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 		///jilli///
 		
 		//$add_jili = jilli::add_in_jilli_wallet($userId,$amount);
@@ -1182,7 +1432,12 @@ $dragon=$randomNumbers;
 
 ////// Mine Game Api ///////
 
+<<<<<<< HEAD
     public function mine_bet(Request $request){
+=======
+public function mine_bet(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $validator = Validator::make($request->all(), [
         'userid' => 'required',
         'game_id' => 'required',
@@ -1234,8 +1489,14 @@ $dragon=$randomNumbers;
     }
 }
 
+<<<<<<< HEAD
     public function mine_cashout(Request $request){
         $validator = Validator::make($request->all(), [
+=======
+public function mine_cashout(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         'userid' => 'required|integer',
         'win_amount' => 'required|numeric',
         'multipler' => 'required|numeric',
@@ -1283,7 +1544,12 @@ $dragon=$randomNumbers;
     ], 200);
 }
 
+<<<<<<< HEAD
     public function mine_result(Request $request){
+=======
+public function mine_result(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $validator = Validator::make($request->all(), [
         'userid' => 'required',
     ]);
@@ -1332,7 +1598,12 @@ $dragon=$randomNumbers;
     }
 }
 
+<<<<<<< HEAD
     public function mine_multiplier()  {
+=======
+public function mine_multiplier() 
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $multipliers = DB::table('mine_multipliers')
                 ->select('id','name', 'multiplier')
                 ->get(); // Use the Card model to fetch all records
@@ -1522,26 +1793,56 @@ public function plinko_index_list(Request $request)
     ],200);
 } 
 
+<<<<<<< HEAD
 public function plinko_result(Request $request){
     $validator = Validator::make($request->all(), [
         'userid' => 'required',
     ]);
     $validator->stopOnFirstFailure();
+=======
+public function plinko_result(Request $request)
+{
+    
+    $validator = Validator::make($request->all(), [
+        'userid' => 'required',
+    ]);
+
+    
+    $validator->stopOnFirstFailure();
+    
+    
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     if ($validator->fails()) {
         return response()->json([
             'status' => 400,
             'message' => $validator->errors()->first()
         ], 400);
     }
+<<<<<<< HEAD
     $userid = $request->userid;
     $limit = $request->limit??0;
 	$offset = $request->offset ?? 0;
    if(empty($limit)) {
+=======
+    
+   
+    $userid = $request->userid;
+    $limit = $request->limit??0;
+	$offset = $request->offset ?? 0;
+
+
+   if (empty($limit)) {
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         $data = DB::table('plinko_bets')->where('userid', $userid)->where('status', 1)->orderBy('id', 'DESC')->get();
     } else {
         $data = DB::table('plinko_bets')->where('userid', $userid)->where('status', 1)->orderBy('id', 'DESC')->skip($offset)->take($limit)->get();
     }   
+<<<<<<< HEAD
     if(!$data->isEmpty()) {  
+=======
+  
+    if (!$data->isEmpty()) {  
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         return response()->json([
             'status' => 200,
             'message' => 'Success',

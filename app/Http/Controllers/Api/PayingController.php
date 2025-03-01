@@ -5,8 +5,11 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
@@ -31,7 +34,10 @@ class PayingController extends Controller{
         $mobile = $data->mobile;
         $email   = $data->email;
         $orderNumber = time() . rand(1000000, 9999999);
+<<<<<<< HEAD
         dd($email,$name,$mobile,$amount,$orderNumber);
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
        // dd($email,$name,$mobile,$amount,$orderNumber);
         $body = [
 				'amount' => "$amount",
@@ -66,6 +72,7 @@ class PayingController extends Controller{
 			curl_close($curl);
                
    }
+<<<<<<< HEAD
    
    	public function payin_usdt(Request $request)
 {
@@ -467,4 +474,6 @@ class PayingController extends Controller{
     }
 
 
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 }

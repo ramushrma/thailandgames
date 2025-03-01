@@ -24,7 +24,11 @@
                     <th>id</th>
 					<th>user name</th>
                     <th>amount</th>
+<<<<<<< HEAD
                     <!--<th>commission</th>-->
+=======
+                    <th>commission</th>
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                     <th>trade_amount</th>
                     <th>win_amount</th>
 					 <th>Bet number</th>
@@ -41,7 +45,11 @@
 					<td>{{$item->id}}</td>
 					<td>{{$item->username}}</td>
                     <td>{{$item->amount}}</td>
+<<<<<<< HEAD
                     <!--<td>{{$item->commission}}</td>-->
+=======
+                    <td>{{$item->commission}}</td>
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                     <td>{{$item->trade_amount}}</td>
                     <td>{{$item->win_amount}}</td>
 					 <td>{{$item->number}}</td>

@@ -7,7 +7,10 @@ use Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+<<<<<<< HEAD
 use App\Models\CustomerService;
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use App\Helper\jilli;
@@ -16,6 +19,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+<<<<<<< HEAD
 class UserController extends Controller
 {
    private function generateUniqueCode()
@@ -72,6 +76,12 @@ class UserController extends Controller
     //      return response()->json($response);
     //  }
 
+=======
+
+class UserController extends Controller
+{
+  
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     //  public function register(Request $request){
     //       $validator = Validator::make($request->all(), [
     //          'mobile' => 'required|unique:users,mobile',
@@ -120,10 +130,13 @@ class UserController extends Controller
     //  }
     
         public function register(Request $request){
+<<<<<<< HEAD
            // dd($request->all());
         $referrerId = null; 
         $referrer_bonus = 0; 
         $currentDate = Carbon::now('Asia/Kolkata')->format('Y-m-d h:i:s');
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
             'mobile' => 'required|numeric|digits:10|unique:users,mobile',
@@ -136,6 +149,7 @@ class UserController extends Controller
                 'message' => $validator->errors()->first()
             ], 200);
         }
+<<<<<<< HEAD
         $unique_code = $this->generateUniqueCode();
         if ($request->has('referral_code')) {
             $referrer = User::where('referral_code', $request->referral_code)->first();
@@ -158,6 +172,8 @@ class UserController extends Controller
           $referrerId = null; 
        }
        // dd($referrerId);
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         $randomName = 'User_' . strtoupper(Str::random(5));
         $email = $request->email;
         $mobile = $request->mobile;
@@ -170,9 +186,13 @@ class UserController extends Controller
             'password' => $request->password,
             'image' => $baseUrl . "/image/download.png",
             'status' => 1,
+<<<<<<< HEAD
             'referral_code' => $unique_code,
             'referrer_id' => $referrerId,
             'bonus' => $referrer_bonus,
+=======
+            'referral_code' => null,
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
             'wallet' => 0.00,
             'email' => $email
         ];
@@ -185,6 +205,7 @@ class UserController extends Controller
     // External API setup Jilli
         $manager_key = 'FEGIScSYS3cMy';
         $apiUrl = 'https://api.gamebridge.co.in/seller/v1/get-newjilli-game-registration';
+<<<<<<< HEAD
         $authorizationtoken='1740119423505';
         $headers = [
             'Authorization' => 'Bearer ' . $manager_key,
@@ -194,6 +215,15 @@ class UserController extends Controller
         $requestData = json_encode(['mobile' => $mobile]);
         $payload = ['payload' => base64_encode($requestData)];
         try{
+=======
+        $headers = [
+            'Authorization' => 'Bearer ' . $manager_key,
+            'Content-Type'  => 'application/json'
+        ];
+        $requestData = json_encode(['mobile' => $mobile]);
+        $payload = ['payload' => base64_encode($requestData)];
+        try {
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         // Make API request Jilli
         $response = Http::withHeaders($headers)->post($apiUrl, $payload);
         $apiResponse = json_decode($response->body());
@@ -202,6 +232,7 @@ class UserController extends Controller
         if($response->successful() && isset($apiResponse->accountNo)) {
             $data['accountNo'] = $apiResponse->accountNo;
             // Create user
+<<<<<<< HEAD
             //dd($data);
             $user = User::create($data);
             $userId = $user->id;
@@ -216,6 +247,11 @@ class UserController extends Controller
             }
            
             if ($user){
+=======
+            $user = User::create($data);
+            $userId = $user->id;
+            if ($user) {
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                 return response()->json([
                     'status' => 200,
                     'user_id' => $userId,
@@ -241,6 +277,7 @@ class UserController extends Controller
                 'error' => $e->getMessage()
             ], 400);
      }
+<<<<<<< HEAD
  }
    public function login(Request $request) {
     $validator = Validator::make($request->all(), [
@@ -347,6 +384,80 @@ class UserController extends Controller
     ], 200);
 }
 
+=======
+}
+     
+     public function login(Request $request){
+            $validator = Validator::make($request->all(), [
+                'email' => 'required',
+                'password' => 'required'
+            ])->stopOnFirstFailure();
+        
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => $validator->errors()->first()
+                ], 200);
+            }
+        
+            if (!$request->has('email') && !$request->has('mobile')) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Either email or mobile is required'
+                ], 200);
+            }
+            $user = DB::table('users')
+                ->where(function ($query) use ($request) {
+                    if ($request->has('email')) {
+                        $query->where('email', $request->email);
+                    }
+                    if ($request->has('email')) {
+                        $query->orWhere('mobile', $request->email);
+                    }
+                })
+                ->first();
+                
+            if ($user && $user->password === $request->password) { 
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Login successful',
+                    'user_id' => $user->id
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Invalid credentials'
+                ], 200);
+            }
+        }
+     public function profile($id){
+            $currentDate = Carbon::now('Asia/Kolkata')->format('Y-m-d h:i:s');
+            $user = DB::table('users')->where('id', $id)->first();
+            
+            $wallet = (float) ($user->wallet ?? 0); 
+            $thirdPartyWallet = (float) ($user->third_party_wallet ?? 0); 
+            $totalBalance = $wallet + $thirdPartyWallet;
+            $wallet = number_format($wallet, 2, '.', '');
+            $thirdPartyWallet = number_format($thirdPartyWallet, 2, '.', '');
+            $totalBalance = number_format($totalBalance, 2, '.', '');
+            
+            if (!$user) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'User not found'
+                ], 200);
+            }
+            $user = (array) $user;
+            $user['wallet'] = number_format($wallet, 2, '.', '');
+            $user['totalBalance'] = number_format($totalBalance, 2, '.', '');
+            $user['currentDate'] = $currentDate; 
+            return response()->json([
+                'status' => 200,
+                'message' => 'Profile retrieved successfully',
+                'data' => $user
+            ], 200);
+        }
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
      public function updateprofile(Request $request){
           if($request->name){
                $name = $request->name;
@@ -492,6 +603,7 @@ class UserController extends Controller
            }else{
                $luck = DB::table('users')->where('id', $user_id)->increment('third_party_wallet', $amount);
                $luck = DB::table('gift_cards')->where('code', $code)->increment('availed_num', 1);
+<<<<<<< HEAD
                $wallet_histories = DB::table('wallet_histories')->insert([
                    "user_id" =>$user_id,
                    "amount" => $amount,
@@ -499,6 +611,8 @@ class UserController extends Controller
                    "description" => "Gift Claim",
                    "created_at" => $currentDate
                    ]);
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                $history = DB::table('gift_claims')->insert([
                     'userid' => $user_id,  
                     'gift_code' => $code, 
@@ -528,6 +642,7 @@ class UserController extends Controller
                      ],200);
              }
     }
+<<<<<<< HEAD
         public function customer_service(){
         // Using the CustomerService model to fetch the data
         $customerService =CustomerService::where('id', 1)
@@ -551,6 +666,8 @@ class UserController extends Controller
             ], 400);
         }
     }
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
      public function feedback(Request $request){
            $currentDate = Carbon::now('Asia/Kolkata')->format('Y-m-d h:i:s');
            $validator = Validator::make($request->all(),[
@@ -564,7 +681,11 @@ class UserController extends Controller
                               ]; 
                 return response()->json($response, 200);
             }
+<<<<<<< HEAD
           $feedback = DB::table('feedback')->insert([
+=======
+          $feedback = DB::table('feedbacks')->insert([
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
               'description' => $request->feedback,
               'userid' => $request->userid,
               'status' => 1,
@@ -587,7 +708,11 @@ class UserController extends Controller
            $current_third_party_wallet = $select->third_party_wallet;
            if($current_third_party_wallet == 0){
               return response()->json([
+<<<<<<< HEAD
                     'status' => 400,
+=======
+                    'status' => 200,
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                     'message' => "Insufficient balance"
                     ],200); 
            }
@@ -687,10 +812,16 @@ class UserController extends Controller
                    ],200); 
            }
        }
+<<<<<<< HEAD
 
      public function getPaymentLimits(){
            $data = DB::table('payment_limits')->get();
 
+=======
+       
+     public function getPaymentLimits(){
+           $data = DB::table('payment_limits')->get();
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
            $datass=[];
            foreach($data as $find){
               $datass[$find->name] = $find->amount;
@@ -707,7 +838,11 @@ class UserController extends Controller
                    ],400);
            }
        }
+<<<<<<< HEAD
 
+=======
+       
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
      public function withdrawal(Request $request){
             do{
             $orderNumber = time() . rand(1000000, 9999999);
@@ -718,6 +853,10 @@ class UserController extends Controller
             $validator = Validator::make($request->all(),[
                 'amount' => 'required|numeric',
                 'type'   => 'required|numeric',
+<<<<<<< HEAD
+=======
+                
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
             ])->stopOnFirstFailure();
             if($validator->fails()){
                 return response()->json([
@@ -726,6 +865,7 @@ class UserController extends Controller
                 ], 200);
             }
             
+<<<<<<< HEAD
            // dd($request->all());
           $charges = DB::table('withdrawal_charges')->where('id', 1)->value('charges');
           $payable_amt = $request->amount - ($request->amount * $charges / 100);
@@ -733,14 +873,23 @@ class UserController extends Controller
          // dd($payable_amt , $payable_usdt);
             
             $check = DB::table('user_usdt_address')->where('userid', $request->userid)->first();
+=======
+            $check = DB::table('bank_details')->where('userid', $request->userid)->first();
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
            if($check){
                $acount_id = $check->id;
                $fetch = DB::table('users')->where('id', $request->userid)->first();
                $avableamount = $fetch->wallet;
+<<<<<<< HEAD
                $avable_win_amount = $fetch->winning_wallet;
                $mobile = $fetch->mobile;
                $avableamount = $fetch->wallet;
                if($request->amount <= $avableamount && $request->amount <= $avable_win_amount){
+=======
+               $mobile = $fetch->mobile;
+               $avableamount = $fetch->wallet;
+               if($request->amount <= $avableamount){
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                 if($request->type == 1){
                      $decrement = DB::table('users')->where('id', $request->userid)->decrement('wallet', $request->amount);
                     if($decrement){
@@ -749,15 +898,19 @@ class UserController extends Controller
                          "user_id"      => $request->userid,
                          "account_id"  => $acount_id,
                          "amount"	  => $request->amount,
+<<<<<<< HEAD
                          "final_payable_amt" => $payable_amt,
                          "final_payable_usdt" => $payable_usdt,
                          "usdt_amount" => $usdt,
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                          "mobile"  => $mobile,
                          "type"  =>  $request->type,
                          "order_id"  =>  $orderNumber,
                          "status"  => 1,
                          "created_at"  => $currentDate
                          ]);
+<<<<<<< HEAD
                          
                           $history = DB::table('wallet_histories')->insert([
                             "user_id" => $request->userid,
@@ -767,6 +920,8 @@ class UserController extends Controller
                             "created_at" =>$currentDate,
                         ]);
                         
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                      return response()->json([
                         'status' => 200,
                         'message' => "Withdrawal successfully"
@@ -801,14 +956,22 @@ class UserController extends Controller
            }else{
                      return response()->json([
                             'status' => 400,
+<<<<<<< HEAD
                             'message' => "First, add your USDT details"
+=======
+                            'message' => "First, add your bank details"
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                         ], 200); 
            }
       } 
      public function withdrawalhistory(Request $request){
             $query = DB::table('withdraws')
                 ->where('user_id', $request->userid)
+<<<<<<< HEAD
                 ->select('amount', 'type', 'status','usdt_amount', 'created_at','reason', 'order_id');
+=======
+                ->select('amount', 'type', 'status','usdt_amount', 'created_at', 'order_id');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
             if ($request->status) {
                 $query->where('status', $request->status);
             }
@@ -855,7 +1018,11 @@ class UserController extends Controller
             ], 200);
         }
      public function TransactionType(){
+<<<<<<< HEAD
          $type = DB::table('types')->select('id', 'name')->where('status', 1)->get();
+=======
+          $type = DB::table('types')->select('id', 'name')->get();
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
           if($type){
               return response()->json([
                   "status" => 200,
@@ -872,15 +1039,24 @@ class UserController extends Controller
         $query = DB::table('wallet_histories')
                 ->where('user_id', $request->userid)
                 ->select('amount','description','created_at');
+<<<<<<< HEAD
             if ($request->type_id){
                 $query->where('type_id', $request->type_id);
+=======
+            if ($request->type){
+                $query->where('type_id', $request->type);
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
             }    
             if ($request->date) {
                 $query->whereDate('created_at', '=', $request->date);
             }
             $query->orderBy('created_at', 'desc');
             $result = $query->get();
+<<<<<<< HEAD
             if ($result->isEmpty()){
+=======
+            if ($result->isEmpty()) {
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                 return response()->json([
                     "status" => 400,
                     "data" => []
@@ -891,7 +1067,11 @@ class UserController extends Controller
                 "data" => $result
             ], 200);
      }
+<<<<<<< HEAD
    
+=======
+     
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
      
      private function generateSecureRandomString($length = 8){
 	//$characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // Only uppercase letters
@@ -903,6 +1083,7 @@ class UserController extends Controller
         }
         return $randomString;
     }
+<<<<<<< HEAD
     
     public function notifications(){
     $data = DB::table('app_noti_ref_bobus')->get();
@@ -935,7 +1116,18 @@ class UserController extends Controller
         }
     }
         
+=======
+     
+     
+     
+ 
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 }
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263

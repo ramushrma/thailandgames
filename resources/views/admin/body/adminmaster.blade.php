@@ -86,6 +86,7 @@
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<<<<<<< HEAD
 
 
 
@@ -103,6 +104,15 @@ $(document).ready(function() {
    $('#example').DataTable({
       dom: 'Bfrtip', // Button table ke upar aayega
       buttons: ['excelHtml5']
+=======
+	   <script>
+$(document).ready(function() {
+   $('#example').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+         'excelHtml5'
+      ]
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
    });
 });
 </script>

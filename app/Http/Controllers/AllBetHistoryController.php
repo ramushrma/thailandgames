@@ -97,6 +97,7 @@ class AllBetHistoryController extends Controller
 // 		}
 
 // 	}
+<<<<<<< HEAD
 //   code jab permison lagaya gya 
 // public function all_bet_history(string $id)
 // {
@@ -208,6 +209,20 @@ public function all_bet_history(Request $request, string $id)
 
         $bets = $query->orderByDesc('id')->paginate($perPage);
 
+=======
+
+public function all_bet_history(string $id)
+{
+    $perPage = 100;
+    
+    if (in_array($id, [1, 2, 3, 4, 6, 7, 8, 9, 10])) {
+        $bets = Bet::with('user:name,id')
+            ->where('game_id', $id)
+            ->orderByDesc('id')
+            ->paginate($perPage);
+
+        // Transform status and number fields
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         $bets->getCollection()->transform(function ($item) {
             $item->status = match($item->status) {
                 1 => 'win',
@@ -216,6 +231,7 @@ public function all_bet_history(Request $request, string $id)
                 default => $item->status
             };
 
+<<<<<<< HEAD
             if (isset($item->number)) {
                 $item->number = match($item->number) {
                     10 => 'Green',
@@ -235,10 +251,21 @@ public function all_bet_history(Request $request, string $id)
                     default => $item->type
                 };
             }
+=======
+            $item->number = match($item->number) {
+                10 => 'Green',
+                20 => 'Voilet',
+                30 => 'Red',
+                40 => 'Big',
+                50 => 'Small',
+                default => $item->number
+            };
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 
             return $item;
         });
 
+<<<<<<< HEAD
         $total_bet = $query->count();
 
         if (in_array($id, [1, 2, 3, 4, 6, 7, 8, 9, 10, 13])) {
@@ -252,5 +279,51 @@ public function all_bet_history(Request $request, string $id)
 
     abort(404);
 }
+=======
+        $total_bet = Bet::where('game_id', $id)->count();
+        return view('All_bet_history.color', compact('bets', 'total_bet'));
+    } elseif ($id == 5) {
+        $bets = AviatorBet::with('user:name,id')
+            ->where('game_id', $id)
+            ->orderByDesc('id')
+            ->paginate($perPage);
+
+        // Transform status field
+        $bets->getCollection()->transform(function ($item) {
+            $item->status = match($item->status) {
+                1 => 'win',
+                2 => 'loss',
+                0 => 'pending',
+                default => $item->status
+            };
+
+            return $item;
+        });
+
+        $total_bet = AviatorBet::where('game_id', $id)->count();
+        return view('All_bet_history.aviator', compact('bets', 'total_bet'));
+    } elseif ($id == 11) {
+        $bets = PlinkoBet::where('game_id', $id)
+            ->orderByDesc('id')
+            ->paginate($perPage);
+
+        // Transform type field
+        $bets->getCollection()->transform(function ($item) {
+            $item->type = match($item->type) {
+                1 => 'Green',
+                2 => 'yellow',
+                3 => 'red',
+                default => $item->type
+            };
+
+            return $item;
+        });
+
+        $total_bet = PlinkoBet::where('game_id', $id)->count();
+        return view('All_bet_history.plinko', compact('bets', 'total_bet'));
+    }
+}
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 	
 }

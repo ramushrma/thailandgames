@@ -1,4 +1,5 @@
 @extends('admin.body.adminmaster')
+<<<<<<< HEAD
 @section('admin')
 <div class="container-fluid mt-5">
          <style>
@@ -12,12 +13,23 @@
     text-overflow: ellipsis;
 }
     </style> 
+=======
+
+@section('admin')
+
+<div class="container-fluid mt-5">
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     <div class="row">
         <div class="col-md-12">
             <div class="white_shd full margin_bottom_30">
                 <div class="full graph_head">
                     <div class="heading1 margin_0 d-flex">
+<<<<<<< HEAD
                         <h2>Deposit List</h2>
+=======
+                        <h2>  Deposit List</h2>
+                      
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                     </div>
                 </div>
                 <div class="table_section padding_infor_info">
@@ -27,6 +39,7 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>User Id</th>
+<<<<<<< HEAD
                                     @if($id == 2 || $id == 3)
                                     <th>Performed By</th>
                                     <th>Perform ID</th>
@@ -43,6 +56,14 @@
                                     @if($id == 3)
                                     <th>Reasion</th>
                                     @endif
+=======
+                                    <th>User Name</th>
+                                    <th>Mobile</th>
+                                    <th>Order Id</th>
+                                    <th>Amount</th>
+                                    <th>Screenshot</th>
+                                    <th>Status</th>
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                                     <th>Date</th>
                                 </tr>
                             </thead>
@@ -51,6 +72,7 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->userid }}</td>
+<<<<<<< HEAD
                                     
                                     @if($id == 2 || $id == 3)
                                     <td>{{ $item->perform_id }}</td>
@@ -109,6 +131,28 @@
                                                     Reject
                                                 </a>
 
+=======
+                                    <td>{{ $item->uname }}</td>
+                                    <td>{{ $item->mobile }}</td>
+                                    <td>{{ $item->order_id }}</td>
+									@if($item->type==2)
+                                    <td> $ {{$item->usdt_amount}} - ₹ {{$item->cash}}</td>
+                                    @elseif($item->type==3)
+                                    <td>{{ $item->cash }}</td>
+									@elseif($item->type==1)
+                                    <td>{{ $item->usdt_amount }}</td>
+									@endif
+                                    <td><a href="{{ url(env('APP_URL') . $item->screenshot) }}">view</a></td>
+                                    <td>
+                                        @if($item->status == 1)
+                                        <div class="dropdown">
+                                            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Pending
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="{{ route('usdt_success', $item->id) }}">Success</a>
+                                                <a class="dropdown-item" href="{{ route('usdt_reject', $item->id) }}">Reject</a>
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                                             </div>
                                         </div>
                                         @elseif($item->status == 2)
@@ -119,9 +163,12 @@
                                         <span class="badge badge-secondary">Unknown Status</span>
                                         @endif
                                     </td>
+<<<<<<< HEAD
                                     @if($id == 3)
                                     <td style="font-size: 12px; color: red;">{{ $item->reason }}</td>
                                     @endif
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                                     <td>{{ $item->created_at }}</td>
                                 </tr>
                                 @endforeach
@@ -133,6 +180,7 @@
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -170,3 +218,16 @@ $(document).ready(function() {
 </script>
 {{-- Include jQuery and Bootstrap JS --}}
 @endsection
+=======
+
+{{-- Include jQuery and Bootstrap JS --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+@endsection
+
+
+
+
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263

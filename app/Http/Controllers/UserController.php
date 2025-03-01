@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+<<<<<<< HEAD
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\{All_image,User,withdraw,Bet,Payin};
@@ -24,6 +25,14 @@ class UserController extends Controller
         ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization');
 }
 
+=======
+use Illuminate\Support\Str;
+use App\Models\{All_image,User,withdraw,Bet,Payin};
+use Illuminate\Support\Facades\URL;
+
+class UserController extends Controller
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 //     public function user_create(Request $request)
 //     {
 // 		$u_id = $request->u_id;
@@ -35,7 +44,13 @@ class UserController extends Controller
 	
 //         if(!empty($value))
 //         {
+<<<<<<< HEAD
 // 			// $users = DB::select("SELECT e.*, m.name AS sname FROM users e LEFT JOIN users m ON e.referrer_id = m.id; ");
+=======
+
+// 			// $users = DB::select("SELECT e.*, m.name AS sname FROM users e LEFT JOIN users m ON e.referrer_id = m.id; ");
+			
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 // 			$query = DB::table('users')
 // 				->leftJoin('users as m', 'users.referrer_id', '=', 'm.id')
 // 				->select('users.*', 'm.name as sname');
@@ -98,6 +113,7 @@ class UserController extends Controller
         
 //     }
 
+<<<<<<< HEAD
       private function generateUniqueCode()
     {
         do {
@@ -224,10 +240,13 @@ class UserController extends Controller
 
 
 
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 public function user_create(Request $request)
 {
     $u_id = $request->u_id;
     $mobile = $request->mobile;
+<<<<<<< HEAD
     $perPage = 10;
         $authuser = $request->session()->get('authuser');
         $auth_role = $authuser->role_id; 
@@ -256,12 +275,25 @@ public function user_create(Request $request)
                 ->where('users.role_id', 4)
                 ->select('users.*', 'm.name as sname', 'v.name as vendor_name');
         }
+=======
+
+    $perPage = 10;
+
+    if ($request->session()->has('id')) {
+        
+        $query = User::query()
+            ->leftJoin('users as m', 'users.referrer_id', '=', 'm.id')
+            ->select('users.*', 'm.name as sname');
+
+        // Apply filters if provided
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         if (!empty($u_id)) {
             $query->where('users.u_id', 'LIKE', '%' . $u_id . '%');
         }
         if (!empty($mobile)) {
             $query->where('users.mobile', 'LIKE', '%' . $mobile . '%');
         }
+<<<<<<< HEAD
         $users = $query->paginate($perPage);
         return view('user.index', compact('users'));
    
@@ -270,10 +302,24 @@ public function user_create(Request $request)
 
     
 public function BlockUserList(Request $request)
+=======
+
+        // Execute the query and paginate results
+        $users = $query->paginate($perPage);
+
+        return view('user.index', compact('users'));
+    } else {
+        return redirect()->route('login');  
+    }
+}
+    
+    public function BlockUserList(Request $request)
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 {
     $u_id = $request->u_id;
     $mobile = $request->mobile;
     $perPage = 10;
+<<<<<<< HEAD
     $authuser = $request->session()->get('authuser');
     $auth_role = $authuser->role_id; 
     $auth_id = $authuser->id;
@@ -310,6 +356,32 @@ public function BlockUserList(Request $request)
     $users = $query->paginate($perPage);
     
     return view('user.index', compact('users'));
+=======
+
+    // Check if session has 'id'
+    if ($request->session()->has('id')) {
+        
+        // Create a base query using Eloquent's query builder
+        $query = User::leftJoin('users as m', 'users.referrer_id', '=', 'm.id')
+                     ->select('users.*', 'm.name as sname')
+                     ->where('users.status', 0);
+
+        // Apply filters if provided
+        if (!empty($u_id)) {
+            $query->where('users.u_id', 'LIKE', '%' . $u_id . '%');
+        }
+        if (!empty($mobile)) {
+            $query->where('users.mobile', 'LIKE', '%' . $mobile . '%');
+        }
+
+        // Execute the query and paginate results
+        $users = $query->paginate($perPage);
+        
+        return view('user.index', compact('users'));
+    } else {
+        return redirect()->route('login');
+    }
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 }
 
 
@@ -397,15 +469,27 @@ public function export_users()
     exit(); // Exit after download is complete
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 public function user_details(Request $request, $id)
 {
     if ($request->session()->has('id')) {
 
+<<<<<<< HEAD
        $users = Bet::where('userid', $id)->orderBy('id', 'desc')->get();
         $withdrawal = withdraw::where('user_id', $id)->orderBy('id', 'desc')->get();
         $wallet_histories = DB::table('wallet_histories')->where('user_id', $id)->orderBy('id', 'desc')->get();
         $dipositess = Payin::where('user_id', $id)->orderBy('id', 'desc')->get();
         return view('user.user_detail', compact('dipositess', 'users', 'withdrawal','wallet_histories'));
+=======
+        $users = Bet::where('userid', $id)->get();
+        $withdrawal = withdraw::where('user_id', $id)->get();
+        $dipositess = Payin::where('user_id', $id)->get();
+        
+        return view('user.user_detail', compact('dipositess', 'users', 'withdrawal'));
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     } else {
         return redirect()->route('login');
     }
@@ -422,7 +506,11 @@ public function user_details(Request $request, $id)
             $user->status = 1;
             $user->save(); 
         }
+<<<<<<< HEAD
        return back();
+=======
+        return redirect()->route('users');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     } 
     else 
     {
@@ -440,8 +528,12 @@ public function user_inactive(Request $request, $id)
         
         User::where('id', $id)->update(['status' => 0]);
 
+<<<<<<< HEAD
        return back();
 
+=======
+        return redirect()->route('users');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     } 
     else 
     {
@@ -449,6 +541,10 @@ public function user_inactive(Request $request, $id)
     }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 public function password_update(Request $request, $id)
 {
     if ($request->session()->has('id')) {
@@ -461,15 +557,25 @@ public function password_update(Request $request, $id)
         $user->password = $request->password; 
         $user->save();
 
+<<<<<<< HEAD
           return back();
+=======
+        return redirect()->route('users');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     } else {
         return redirect()->route('login');
     }
 }
 
+<<<<<<< HEAD
 public function wallet_store(Request $request, $id)
 {
      $currentDate = Carbon::now('Asia/Kolkata')->format('Y-m-d h:i:s');
+=======
+
+public function wallet_store(Request $request, $id)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     if ($request->session()->has('id')) {
         $wallet = $request->input('wallet');
 
@@ -478,13 +584,18 @@ public function wallet_store(Request $request, $id)
         ]);
 
         $user = User::find($id);
+<<<<<<< HEAD
        
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         if ($user) {
             $user->increment('wallet', $wallet);
             $user->increment('deposit_amount', $wallet);
             $user->increment('total_payin', $wallet);
             $user->increment('recharge', $wallet);
 
+<<<<<<< HEAD
              $authuser = $request->session()->get('authuser');
              $auth_role = $authuser->role_id; 
              $auth_id = $authuser->id;
@@ -514,6 +625,19 @@ public function wallet_store(Request $request, $id)
             return back()->with('success', 'Wallet updated successfully.');
         } else {
             return back()->with('error', 'User not found.');
+=======
+            Payin::create([
+                'user_id' => $user->id,
+                'cash' => $wallet,
+                'order_id' => 'via Admin',  // Assuming fixed order_id for admin
+                'type' => 0,  // Assuming '2' is the type you need
+                'status' => 2,  // Assuming '2' represents success status
+            ]);
+
+            return redirect()->route('users')->with('success', 'Wallet updated successfully.');
+        } else {
+            return redirect()->route('users')->with('error', 'User not found.');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         }
     } else {
         return redirect()->route('login');
@@ -523,7 +647,11 @@ public function wallet_store(Request $request, $id)
 
 public function wallet_subtract(Request $request, $id)
 {
+<<<<<<< HEAD
      $currentDate = Carbon::now('Asia/Kolkata')->format('Y-m-d h:i:s');
+=======
+    date_default_timezone_set('Asia/Kolkata');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $ammount = $request->wallet;
 
     // Check if the request has a wallet amount
@@ -535,7 +663,11 @@ public function wallet_subtract(Request $request, $id)
         if (!$user) {
             return redirect()->back()->with('error', 'User not found.');
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         // Check if the wallet amount is sufficient
         if ($user->wallet < $ammount) {
             return redirect()->back()->with('error', 'Insufficient wallet balance.');
@@ -544,6 +676,7 @@ public function wallet_subtract(Request $request, $id)
         // Subtract the amount from the wallet
         $user->wallet -= $ammount;
         $user->save();
+<<<<<<< HEAD
         
          $authuser = $request->session()->get('authuser');
          $auth_role = $authuser->role_id; 
@@ -571,6 +704,10 @@ public function wallet_subtract(Request $request, $id)
                    ]);
                    
        return back()->with('success', 'Amount subtracted successfully!');
+=======
+
+        return redirect()->route('users')->with('success', 'Amount subtracted successfully!');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     }
 
     return redirect()->back()->with('error', 'No amount specified.');
@@ -606,7 +743,11 @@ public function wallet_subtract(Request $request, $id)
 // }
 
 			
+<<<<<<< HEAD
 //                return back();
+=======
+//              return redirect()->route('users');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 // 			  }
 //         else
 //         {
@@ -635,7 +776,11 @@ public function password_store(Request $request, $id)
             }
         }
 
+<<<<<<< HEAD
           return back();
+=======
+        return redirect()->route('users');
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     } else {
         return redirect()->route('login');
     }
@@ -687,7 +832,19 @@ $data= json_decode($response);
       }
       
       
+<<<<<<< HEAD
  
+=======
+      
+     public function registerwithref($id){
+         
+         $ref_id = User::where('referral_code',$id)->first();
+       
+         return view('user.newregister')->with('ref_id',$ref_id);
+         
+     }
+     
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
       protected function generateRandomUID() {
 					$alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 					$digits = '0123456789';
@@ -820,7 +977,11 @@ public function register_store_old(Request $request, $referral_code)
         'password' => 'required|string|min:6|confirmed', 
         'password_confirmation' => 'required|string|min:6', 
         'email' => 'required|unique:users,email',
+<<<<<<< HEAD
        // 'otp' => 'required',
+=======
+        'otp' => 'required',
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     ]);
     
      $baseUrl = URL::to('/');
@@ -866,6 +1027,7 @@ public function register_store_old(Request $request, $referral_code)
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[random_int(0, strlen($characters) - 1)];
         }
+<<<<<<< HEAD
         return $randomString;
     }
     
@@ -1013,5 +1175,15 @@ public function register_store_old(Request $request, $referral_code)
    }
 	
 }
+=======
+
+        return $randomString;
+    }
+}
+      
+      
+	
+      
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 
      

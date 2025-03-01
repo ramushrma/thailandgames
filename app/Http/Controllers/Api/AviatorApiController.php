@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 use Illuminate\Http\Request;
 use App\Models\{AviatorBet,AviatorResult,AviatorAdminResult,User,BusinessSetting,AviatorSetting,WalletHistory};
 use Illuminate\Support\Facades\Storage;
@@ -10,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller; // Add this line
 use Illuminate\Http\JsonResponse;
 use App\Helper\jilli;
+<<<<<<< HEAD
 class AviatorApiController extends Controller
 {
     
@@ -112,6 +117,15 @@ class AviatorApiController extends Controller
 
 // }
 public function aviatorBet(Request $request){
+=======
+
+
+class AviatorApiController extends Controller
+{
+    
+    public function aviatorBet(Request $request)
+{
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     // Set timezone
     date_default_timezone_set('Asia/Kolkata');
     
@@ -125,11 +139,20 @@ public function aviatorBet(Request $request){
     ]);
     
     if ($validator->fails()) {
+<<<<<<< HEAD
         return response()->json(['status' => 400, 'message' => $validator->errors()->first()], 200);
     }
     
     // Extract request data
     $uid = $request->uid;
+=======
+        return response()->json(['status' => 400, 'message' => $validator->errors()->first()],200);
+    }
+		  $uid = $request->uid;
+     //$wallet_update = jilli::update_user_wallet($uid);
+    // Extract request data
+  
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $amount = $request->amount;
     $sr_num = $request->game_sr_num;
     $number = $request->number;
@@ -145,6 +168,7 @@ public function aviatorBet(Request $request){
         ->first();
 
     if ($existingBet) {
+<<<<<<< HEAD
         return response()->json(['status' => 400, 'message' => 'Already bet created!'], 200);
     }
 
@@ -177,6 +201,40 @@ public function aviatorBet(Request $request){
     $user->save();
 
     // Calculate commission
+=======
+        return response()->json(['status' => 400, 'message' => 'Already bet created!'],200);
+    }
+
+    // Get user and validate wallet
+    $user = User::find($uid);
+
+    if (!$user) {
+        return response()->json(['status' => 400, 'message' => 'Failed to get data of user!'],200);
+    }
+
+    if ($user->wallet < $amount) {
+        return response()->json(['status' => 400, 'message' => 'Insufficient funds!'],200);
+    }
+
+    // Update user wallet
+    $walletAdjustment = $amount;
+    
+    if ($amount > $user->winning_wallet) {
+        
+        $walletAdjustment += $user->winning_wallet;
+        $user->winning_wallet = 0;
+    } else {
+        
+        $user->winning_wallet -= $amount;
+        //dd($user);
+    }
+    
+    $user->wallet -= $amount;
+    $user->save();
+		
+
+    // Prepare data for the bet
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $bettingFee = BusinessSetting::find(10);
     $percentageBet = $bettingFee->longtext ?? 0;
     $commission = $amount * $percentageBet;
@@ -194,6 +252,7 @@ public function aviatorBet(Request $request){
         'commission' => $commission,
         'status' => 0,
         'stop_multiplier' => $stop_multiplier,
+<<<<<<< HEAD
         'created_at' => $datetime,
     ]);
 
@@ -214,6 +273,33 @@ public function aviatorBet(Request $request){
     date_default_timezone_set('Asia/Kolkata');
     $datetime = now()->format('Y-m-d H:i:s');
     $uid = $requests->uid;
+=======
+        //'datetime' => $datetime,
+        'created_at' => $datetime,
+        
+    ]);
+
+    // Return success response
+  if ($bet) {
+    return response()->json(['status' => 200, 'message' => 'Bet placed successfully. ' . $sr_num]);
+} else {
+    return response()->json(['status' => 400, 'message' => 'Something Went Wrong.']);
+}
+
+}
+
+    
+    public function aviator_cashout(Request $request)
+{
+    //dd($request);
+    $requests = json_decode(base64_decode($request->salt));
+    
+    date_default_timezone_set('Asia/Kolkata');
+    $datetime = now()->format('Y-m-d H:i:s');
+
+    $uid = $requests->uid;
+   
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
     $multiplier = $requests->multiplier;
     $game_sr_num = $requests->game_sr_num;
     $number = $requests->number;
@@ -346,7 +432,12 @@ public function aviatorBet(Request $request){
 		$number = $request->number;
 		$gameno= $request->game_sr_num;
       	$gamesno = $request->game_sr_num + 1;
+<<<<<<< HEAD
       	
+=======
+
+		
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 		$cancelCount = AviatorBet::where('uid', $userId)
             ->where('number', $number)
             ->where('status', 4)

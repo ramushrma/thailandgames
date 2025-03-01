@@ -35,7 +35,11 @@ class SettingController extends Controller
 	
 	    public function support_setting()
     {
+<<<<<<< HEAD
          $settings = DB::select("SELECT * FROM `customer_services` where status='1'");
+=======
+         $settings = DB::select("SELECT * FROM `customer_services`  ");
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
         return view('work_order_assign.support_setting', compact('settings'));
     }
 	  public function supportsetting_update(Request $request,$id)

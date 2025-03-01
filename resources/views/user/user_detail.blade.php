@@ -33,6 +33,7 @@
                         <td>{{$row->id}}</td>
                         <td>{{$row->amount}}</td>
                         <td>{{$row->number}}</td>
+<<<<<<< HEAD
 					<td>
                         <?php 
                             $games = [
@@ -55,6 +56,10 @@
                         ?>
                     </td>
 						<td>{{$row->games_no}}</td>
+=======
+						<td><?php if($row->game_id==1){echo "Wingo 1 Minute";}elseif($row->game_id==2){echo "Wingo 3 Minute";}elseif($row->game_id==3){echo "Wingo 5 Minute";}elseif($row->game_id==4){echo "Wingo 10 Minute";}elseif($row->game_id==5){echo "Aviator";}elseif($row->game_id==6){echo "TRX 1 Minute";}elseif($row->game_id==7){echo "TRX 3 Minute";}elseif($row->game_id==8){echo "TRX 5 Minute";}elseif($row->game_id==9){echo "TRX 10 Minute";}elseif($row->game_id==10){echo "Dragon Tiger";}elseif($row->game_id==11){echo "Plinko";}elseif($row->game_id==12){echo "Mine Game";} ?></td>
+						<td>{{$row->gamesno}}</td>
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                         <td>{{$row->created_at}}</td>
                        
                     </tr>
@@ -187,6 +192,7 @@
  </div>
 </div>
 </div> 
+<<<<<<< HEAD
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -248,6 +254,8 @@
     </div>
 </div>
 
+=======
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
 
 
  @endsection

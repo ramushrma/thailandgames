@@ -46,7 +46,11 @@
                     <div class="form-group">                                         
                         <label for="parsantage">Percentage %</label>
 						 <input type="hidden" name="game_id"  value="{{$game_id}}">
+<<<<<<< HEAD
                         <input type="number" step="any" class="form-control"  name="percentage"  value="{{$results->winning_percentage}}">
+=======
+                        <input type="number" step="any" class="form-control"  name="winning_percentage"  value="{{$results->winning_percentage}}">
+>>>>>>> 7b570b3acf7925bce6e596785d2268af1a197263
                      </div>
                 </div>
 			   <div class="col-md-3" style="margin-top:28px;">
